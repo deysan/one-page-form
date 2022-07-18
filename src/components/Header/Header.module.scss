@@ -1,5 +1,9 @@
 .header {
-  position: sticky;
+  height: 100vh;
+}
+
+.wrapper {
+  position: fixed;
   top: 0;
   width: 100%;
   background-color: var(--white);
@@ -9,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 60px;
+  height: 60px;
   padding: 13px 0;
 }
 
@@ -27,6 +31,5 @@
 
 .nav {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
 }

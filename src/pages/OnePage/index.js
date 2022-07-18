@@ -2,5 +2,11 @@ import { Header } from '../../components';
 import React from 'react';
 
 export const OnePage = () => {
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <p>Hello</p>
+      <p>World</p>
+    </>
+  );
 };
