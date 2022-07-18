@@ -1,5 +1,41 @@
 .userCard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
+}
+
+.userName {
+  margin: 0;
+}
+
+.userInfo {
+  text-align: center;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltiptext {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 1;
+  width: max-content;
+  padding: 3px 16px;
+  text-align: center;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.87);
+  border-radius: 4px;
+  visibility: hidden;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
