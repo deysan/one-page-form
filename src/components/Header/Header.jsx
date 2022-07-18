@@ -13,10 +13,10 @@ export const Header = () => {
           </a>
           <ul className={styles.nav}>
             <li>
-              <Button title="Users" onClick={''} />
+              <Button title="Users" link="#users" />
             </li>
             <li>
-              <Button title="Sign Up" onClick={''} />
+              <Button title="Sign Up" link="#signup" />
             </li>
           </ul>
         </nav>

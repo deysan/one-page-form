@@ -1,13 +1,14 @@
 import classnames from 'classnames';
 import styles from './Button.module.scss';
 
-export const Button = ({ title, onClick, disabled }) => {
+export const Button = ({ title, link, onClick, disabled }) => {
   return (
-    <div
+    <a
       className={classnames(styles.btn, disabled && styles.disabled)}
+      href={link}
       onClick={onClick}
     >
       {title}
-    </div>
+    </a>
   );
 };
