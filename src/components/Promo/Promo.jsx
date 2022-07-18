@@ -7,8 +7,10 @@ export const Promo = () => {
     <div className={styles.promo}>
       <Container>
         <div className={styles.content}>
-          <h1>Test assignment for front-end developer</h1>
-          <p>
+          <h1 className={styles.title}>
+            Test assignment for front-end developer
+          </h1>
+          <p className={styles.text}>
             What defines a good front-end developer is one that has skilled
             knowledge of HTML, CSS, JS with a vast understanding of User design
             thinking as they'll be building web interfaces with accessibility in

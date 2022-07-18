@@ -3,13 +3,17 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-top: 40px;
+  padding-top: 30px;
   color: #ffffff;
   background: linear-gradient(rgba(0, 0, 0, 0.5) 100%, rgba(0, 0, 0, 0.5) 100%),
     url('./bg-image.jpeg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  @media (min-width: 768px) {
+    padding-top: 60px;
+  }
 }
 
 .content {
@@ -20,4 +24,8 @@
   max-width: 380px;
   margin: 0 auto;
   text-align: center;
+}
+
+.text {
+  margin-bottom: 12px;
 }

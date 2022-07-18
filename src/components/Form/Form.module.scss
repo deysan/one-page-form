@@ -6,7 +6,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 18px;
   max-width: 380px;
   margin: 0 auto;
 }
@@ -20,6 +20,7 @@
 }
 
 .legend {
+  margin-bottom: 9px;
   padding: 0;
 }
 
@@ -31,7 +32,7 @@
 
 .contact input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 13px 15px;
   font-family: 'Nunito', 'Arial', sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -60,19 +61,20 @@
 
 .select {
   position: relative;
+  margin-bottom: 7px;
 }
 .select input {
   display: none;
 }
 
 .select label {
-  padding-left: 25px;
+  padding-left: 32px;
   cursor: pointer;
 
   &::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: 3px;
     left: 0;
     width: 20px;
     height: 20px;
@@ -89,7 +91,7 @@
   &::after {
     content: '';
     position: absolute;
-    top: 5px;
+    top: 8px;
     left: 5px;
     width: 10px;
     height: 10px;
@@ -100,6 +102,8 @@
 
 .file {
   position: relative;
+  margin-top: 22px;
+  margin-bottom: 32px;
 }
 
 .file input {
@@ -108,8 +112,8 @@
 
 .file label {
   width: 100%;
-  padding: 14px;
-  padding-left: 100px;
+  padding: 13px 15px;
+  padding-left: 98px;
   color: #7e7e7e;
   border: 1px solid #d0cfcf;
   border-radius: 4px;
@@ -121,7 +125,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    padding: 14px 15px;
+    padding: 13px 15px;
     color: rgba(0, 0, 0, 0.87);
     border: 1px solid rgba(0, 0, 0, 0.87);
     border-top-left-radius: 4px;

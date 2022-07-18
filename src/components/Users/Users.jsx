@@ -57,6 +57,17 @@ const users = [
     registration_timestamp: 1537629182,
     photo:
       'https://frontend-test-assignment-api.abz.agency/images/users/5b977ba293d2f42.jpeg'
+  },
+  {
+    id: '42',
+    name: 'Lorraine',
+    email: 'lorraine.morris@example.com',
+    phone: '+380945198009',
+    position: 'Designer',
+    position_id: '4',
+    registration_timestamp: 1537629182,
+    photo:
+      'https://frontend-test-assignment-api.abz.agency/images/users/5b977ba293d2f42.jpeg'
   }
 ];
 
