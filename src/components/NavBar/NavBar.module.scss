@@ -1,0 +1,31 @@
+.navBar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--white);
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 13px 0;
+}
+
+.logo {
+  flex-shrink: 0;
+  width: 104px;
+  height: 26px;
+  margin-right: 10px;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.items {
+  display: flex;
+  gap: 10px;
+}

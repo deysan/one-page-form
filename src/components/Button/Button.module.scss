@@ -1,8 +1,11 @@
 .btn {
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
-  width: 100px;
-  padding: 4px 0;
+  min-width: 100px;
+  max-width: 120px;
+  margin: 0 auto;
+  padding: 4px 16px;
   color: rgba(0, 0, 0, 0.87);
   background-color: #f4e041;
   border-radius: 80px;
