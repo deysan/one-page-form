@@ -1,3 +1,4 @@
+import { Button } from '../Button';
 import { Container } from '../Container';
 import Logo from './logo.svg';
 import styles from './Header.module.scss';
@@ -11,8 +12,12 @@ export const Header = () => {
             <img src={Logo} alt="Logo" />
           </a>
           <ul className={styles.nav}>
-            <li>Users</li>
-            <li>Sign Up</li>
+            <li>
+              <Button title="Users" onClick={''} />
+            </li>
+            <li>
+              <Button title="Sign Up" onClick={''} />
+            </li>
           </ul>
         </nav>
       </Container>

@@ -17,7 +17,12 @@
   flex-shrink: 0;
   width: 104px;
   height: 26px;
-  margin-right: 16px;
+  margin-right: 10px;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .nav {

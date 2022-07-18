@@ -1,0 +1,26 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  padding: 4px 0;
+  background-color: #f4e041;
+  border-radius: 80px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover,
+  &:focus {
+    background-color: #ffe302;
+  }
+}
+
+.disabled {
+  color: #ffffff;
+  background-color: #b4b4b4;
+  cursor: default;
+
+  &:hover,
+  &:focus {
+    background-color: #b4b4b4;
+  }
+}

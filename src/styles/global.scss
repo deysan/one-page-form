@@ -6,13 +6,14 @@ body {
 body,
 #root {
   min-width: var(--mobile-width);
-  margin: 0 auto;
+  margin: 0;
   color: var(--black);
   background-color: var(--bg-color);
   @include font-body;
 }
 
 a {
+  color: inherit;
   text-decoration: none;
 }
 
