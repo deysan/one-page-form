@@ -1,0 +1,27 @@
+.header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--white);
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+  padding: 13px 0;
+}
+
+.logo {
+  flex-shrink: 0;
+  width: 104px;
+  height: 26px;
+  margin-right: 16px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
