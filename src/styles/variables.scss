@@ -1,0 +1,30 @@
+// Viewport
+$mobile-width: 320px;
+$mobile-width-only: 767px;
+$tablet-width: 768px;
+$desktop-width: 1024px;
+$full-width: 1200px;
+
+// Color palette
+$primary-color: #f4e041;
+$secondary-color: #00bdd3;
+$hover-color: #ffe302;
+$disabled-color: #b4b4b4;
+$bg-color: #f8f8f8;
+$white: #ffffff;
+$black: rgba(0, 0, 0, 0.87);
+
+// Font mixin
+@mixin font-title() {
+  font-family: 'Nunito', 'Arial', sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 40px;
+}
+
+@mixin font-body() {
+  font-family: 'Nunito', 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+}
