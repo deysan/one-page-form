@@ -6,3 +6,4 @@ export * from './Users';
 export * from './Main';
 export * from './UserCard';
 export * from './NavBar';
+export * from './Form';

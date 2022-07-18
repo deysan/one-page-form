@@ -65,7 +65,7 @@ export const Users = () => {
     <section className={styles.users} id="users">
       <Container>
         <div className={styles.wrapper}>
-          <h1 className={styles.title}>Working with GET request</h1>
+          <h2 className={styles.title}>Working with GET request</h2>
           <ul className={styles.list}>
             {users.map((user) => (
               <UserCard key={user.id} {...user} />

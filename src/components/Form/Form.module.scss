@@ -1,0 +1,150 @@
+.title {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.fieldset {
+  display: flex;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legend {
+  padding: 0;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.contact input {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: 'Nunito', 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #7e7e7e;
+  border: 1px solid #d0cfcf;
+  border-radius: 4px;
+  outline: none;
+}
+
+.contact input:hover,
+.contact input:focus {
+  border-color: #00bdd3;
+}
+
+.contact label {
+  padding-left: 16px;
+  font-family: 'Nunito', 'Arial', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  text-align: left;
+
+  color: #7e7e7e;
+}
+
+.select {
+  position: relative;
+}
+.select input {
+  display: none;
+}
+
+.select label {
+  padding-left: 25px;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #d0cfcf;
+    border-radius: 50%;
+  }
+}
+
+.select input:checked + label {
+  &::before {
+    border-color: #00bdd3;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #00bdd3;
+    border-radius: 50%;
+  }
+}
+
+.file {
+  position: relative;
+}
+
+.file input {
+  display: none;
+}
+
+.file label {
+  width: 100%;
+  padding: 14px;
+  padding-left: 100px;
+  color: #7e7e7e;
+  border: 1px solid #d0cfcf;
+  border-radius: 4px;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &::before {
+    content: 'Upload';
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 14px 15px;
+    color: rgba(0, 0, 0, 0.87);
+    border: 1px solid rgba(0, 0, 0, 0.87);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    transition: all 0.3s;
+  }
+}
+
+.file label:hover {
+  border-color: #00bdd3;
+
+  &::before {
+    color: #00bdd3;
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
