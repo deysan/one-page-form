@@ -8,10 +8,6 @@ export const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
-  console.log(users);
-  console.log(currentPage);
-  console.log(totalPage);
-
   useEffect(() => {
     fetch(
       `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${currentPage}&count=6`

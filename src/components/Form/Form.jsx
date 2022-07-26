@@ -1,9 +1,50 @@
 import { Button, Container } from '..';
+import { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 import styles from './Form.module.scss';
 
 export const Form = () => {
+  const [token, setToken] = useState('');
+  const [positions, setPositions] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    position: 1,
+    file: ''
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: name === 'position' ? Number(value) : value
+    }));
+  };
+
+  console.log(token);
+  console.log(formData);
+
+  const getFormSubmit = () => {
+    fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', {
+      method: 'POST',
+      body: formData,
+      headers: { Token: token }
+    }).then((response) => console.log(response));
+  };
+
+  useEffect(() => {
+    fetch('https://frontend-test-assignment-api.abz.agency/api/v1/token')
+      .then((response) => response.json())
+      .then((data) => setToken(data.token));
+
+    fetch('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
+      .then((response) => response.json())
+      .then((data) => setPositions(data.positions));
+  }, []);
+
   return (
     <section id="signup">
       <Container>
@@ -23,8 +64,15 @@ export const Form = () => {
                     // styles.contactFieldError
                   )}
                 >
-                  <input type="text" name="name" id="name" required />
-                  <label for="name">Your name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={formData.name}
+                    required
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="name">Your name</label>
                   {/* <span className={styles.helper}>Helper text</span> */}
                 </div>
                 <div
@@ -33,8 +81,14 @@ export const Form = () => {
                     // styles.contactFieldError
                   )}
                 >
-                  <input type="email" name="email" id="email" required />
-                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    required
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="email">Email</label>
                   {/* <span className={styles.helper}>Helper text</span> */}
                 </div>
                 <div
@@ -43,8 +97,14 @@ export const Form = () => {
                     // styles.contactFieldError
                   )}
                 >
-                  <input type="tel" name="phone" id="phone" required />
-                  <label for="phone">Phone</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    id="phone"
+                    required
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="phone">Phone</label>
                   <span className={styles.helper}>+38 (XXX) XXX - XX - XX</span>
                 </div>
               </div>
@@ -52,38 +112,20 @@ export const Form = () => {
             <fieldset className={styles.fieldset}>
               <legend className={styles.legend}>Select your position</legend>
               <ul>
-                <li className={styles.select}>
-                  <input
-                    type="radio"
-                    name="position"
-                    value="frontend"
-                    id="frontend"
-                    defaultChecked
-                  />
-                  <label htmlFor="frontend">Frontend developer</label>
-                </li>
-                <li className={styles.select}>
-                  <input
-                    type="radio"
-                    name="position"
-                    value="backend"
-                    id="backend"
-                  />
-                  <label htmlFor="backend">Backend developer</label>
-                </li>
-                <li className={styles.select}>
-                  <input
-                    type="radio"
-                    name="position"
-                    value="designer"
-                    id="designer"
-                  />
-                  <label htmlFor="designer">Designer</label>
-                </li>
-                <li className={styles.select}>
-                  <input type="radio" name="position" value="qa" id="qa" />
-                  <label htmlFor="qa">QA</label>
-                </li>
+                {positions.map((position) => (
+                  <li className={styles.select} key={position.id}>
+                    <input
+                      type="radio"
+                      name="position"
+                      value={position.id}
+                      id={position.id}
+                      defaultChecked={formData.position === position.id}
+                      // checked={formData.position === position.id}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor={position.id}>{position.name}</label>
+                  </li>
+                ))}
               </ul>
             </fieldset>
             <fieldset
@@ -102,7 +144,7 @@ export const Form = () => {
               <input type="file" name="photo" id="photo" accept="image/*" />
               {/* <span className={styles.helper}>Helper text</span> */}
             </fieldset>
-            <Button title="Sign up" disabled />
+            <Button title="Sign up" onClick={() => getFormSubmit()} disabled />
           </form>
         </div>
       </Container>

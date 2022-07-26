@@ -1,13 +1,13 @@
 import Placeholder from './avatar-placeholder.svg';
 import styles from './UserCard.module.scss';
 
-export const UserCard = ({ name, position, email, phone }) => {
+export const UserCard = ({ photo, name, position, email, phone }) => {
   return (
     <div className={styles.userWrapper}>
       <div className={styles.userCard}>
         <div className={styles.userImage}>
           <img
-            src={Placeholder}
+            src={photo || Placeholder}
             alt="Photo"
             width="70"
             height="70"
