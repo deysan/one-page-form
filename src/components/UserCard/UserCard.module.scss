@@ -1,5 +1,8 @@
+.userWrapper {
+  position: relative;
+}
+
 .userCard {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,6 +11,7 @@
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .userImage {
@@ -17,20 +21,25 @@
 
 .userName {
   margin: 0;
+  width: calc(100% - 20px);
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .userInfo {
+  width: calc(100% - 20px);
   text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.tooltip {
-  position: relative;
-}
-
-.tooltiptext {
+.tooltipText {
   position: absolute;
-  top: 30px;
-  left: 0;
+  bottom: 10px;
+  left: 50%;
   z-index: 10;
   width: max-content;
   padding: 3px 16px;
@@ -39,8 +48,9 @@
   background-color: rgba(0, 0, 0, 0.87);
   border-radius: 4px;
   visibility: hidden;
+  transform: translateX(-50%);
 }
 
-.tooltip:hover .tooltiptext {
+.text:hover .tooltipText {
   visibility: visible;
 }
