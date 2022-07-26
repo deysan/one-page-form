@@ -1,5 +1,5 @@
 .title {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -15,6 +15,7 @@
   display: flex;
   gap: 11px;
   margin: 0;
+  margin-top: 5px;
   padding: 0;
   border: none;
 }
@@ -24,39 +25,60 @@
   padding: 0;
 }
 
-.contact {
+.contacts {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 9px;
 }
 
-.contact input {
+.contactField {
+  position: relative;
+  margin-bottom: 21px;
+  border-top: 20px solid transparent;
+}
+
+.contactField input {
   width: 100%;
   padding: 13px 15px;
   font-family: 'Nunito', 'Arial', sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
-  color: #7e7e7e;
+  color: var(--black);
+  background: none;
   border: 1px solid #d0cfcf;
   border-radius: 4px;
   outline: none;
 }
 
-.contact input:hover,
-.contact input:focus {
-  border-color: #00bdd3;
+.contactField label {
+  position: absolute;
+  left: 10px;
+  top: 26px;
+  padding: 0 5px;
+  color: #7e7e7e;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+  cursor: text;
 }
 
-.contact label {
-  padding-left: 16px;
-  font-family: 'Nunito', 'Arial', sans-serif;
+.contactField input:focus + label,
+.contactField input:valid + label {
+  top: 0;
   font-size: 12px;
-  font-weight: 400;
-  line-height: 14px;
-  text-align: left;
-
+  font-weight: 500;
   color: #7e7e7e;
+  background-color: var(--bg-color);
+}
+
+.contactFieldError input {
+  padding: 12px 14px;
+  border: 2px solid var(--error-color);
+}
+
+.contactFieldError .helper {
+  color: var(--error-color);
 }
 
 .select {
@@ -130,16 +152,32 @@
     border: 1px solid rgba(0, 0, 0, 0.87);
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
-    transition: all 0.3s;
   }
 }
 
-.file label:hover {
-  border-color: #00bdd3;
+.fileError label {
+  padding: 12px 14px;
+  padding-left: 96px;
+  border: 2px solid var(--error-color);
 
   &::before {
-    color: #00bdd3;
+    padding: 12px 14px;
+    border: 2px solid var(--error-color);
   }
+}
+
+.fileError .helper {
+  color: var(--error-color);
+}
+
+.helper {
+  position: absolute;
+  left: 3px;
+  bottom: -24px;
+  width: 100%;
+  padding: 0 13px;
+  font-size: 12px;
+  color: #7e7e7e;
 }
 
 .visuallyHidden {

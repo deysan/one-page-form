@@ -16,24 +16,37 @@ export const Form = () => {
               >
                 Write your contacts
               </legend>
-              <div className={styles.contact}>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                />
-                <input type="email" name="email" placeholder="Email" required />
-                <p>
-                  <input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    placeholder="Phone"
-                    required
-                  />
-                  <label for="phone">+38 (XXX) XXX - XX - XX</label>
-                </p>
+              <div className={styles.contacts}>
+                <div
+                  className={classnames(
+                    styles.contactField
+                    // styles.contactFieldError
+                  )}
+                >
+                  <input type="text" name="name" id="name" required />
+                  <label for="name">Your name</label>
+                  {/* <span className={styles.helper}>Helper text</span> */}
+                </div>
+                <div
+                  className={classnames(
+                    styles.contactField
+                    // styles.contactFieldError
+                  )}
+                >
+                  <input type="email" name="email" id="email" required />
+                  <label for="email">Email</label>
+                  {/* <span className={styles.helper}>Helper text</span> */}
+                </div>
+                <div
+                  className={classnames(
+                    styles.contactField
+                    // styles.contactFieldError
+                  )}
+                >
+                  <input type="tel" name="phone" id="phone" required />
+                  <label for="phone">Phone</label>
+                  <span className={styles.helper}>+38 (XXX) XXX - XX - XX</span>
+                </div>
               </div>
             </fieldset>
             <fieldset className={styles.fieldset}>
@@ -73,7 +86,13 @@ export const Form = () => {
                 </li>
               </ul>
             </fieldset>
-            <fieldset className={classnames(styles.fieldset, styles.file)}>
+            <fieldset
+              className={classnames(
+                styles.fieldset,
+                styles.file
+                // styles.fileError
+              )}
+            >
               <legend
                 className={classnames(styles.legend, styles.visuallyHidden)}
               >
@@ -81,6 +100,7 @@ export const Form = () => {
               </legend>
               <label htmlFor="photo">Upload your photo</label>
               <input type="file" name="photo" id="photo" accept="image/*" />
+              {/* <span className={styles.helper}>Helper text</span> */}
             </fieldset>
             <Button title="Sign up" disabled />
           </form>
