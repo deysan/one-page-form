@@ -22,7 +22,17 @@ export const validator = (data, config) => {
       case 'isRequired': {
         if (typeof data === 'boolean') {
           statusValidate = !data;
-        } else statusValidate = data.trim() === '';
+        } else if (typeof data === 'string') {
+          statusValidate = data.trim() === '';
+        } else {
+          const isEmpty = (obj) => {
+            for (const key in obj) {
+              return false;
+            }
+            return true;
+          };
+          statusValidate = isEmpty(data);
+        }
         break;
       }
       case 'minLength': {
@@ -43,6 +53,10 @@ export const validator = (data, config) => {
       case 'isPhone': {
         const phoneRegExp = /[+]{0,1}380([0-9]{9})/g;
         statusValidate = !phoneRegExp.test(data);
+        break;
+      }
+      case 'maxSize': {
+        statusValidate = data.size >= config.value;
         break;
       }
       default:

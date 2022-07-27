@@ -41,9 +41,13 @@ export const validatorConfig = {
       message: 'Position is required'
     }
   },
-  file: {
+  photo: {
     isRequired: {
       message: 'File is required'
+    },
+    maxSize: {
+      message: 'File size should not exceed 5mb',
+      value: 5242880
     }
   }
 };

@@ -15,20 +15,26 @@ export const Form = () => {
     email: '',
     phone: '',
     position_id: '1',
-    file: ''
+    photo: {}
   });
   const [dirtyInput, setDirtyInput] = useState({
     name: false,
     email: false,
-    phone: false
+    phone: false,
+    photo: false
   });
   const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
+
+    if (name === 'photo') {
+      setDirtyInput((prevState) => ({ ...prevState, photo: true }));
+    }
+
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: name === 'photo' ? files[0] : value
     }));
   };
 
@@ -40,12 +46,23 @@ export const Form = () => {
     }));
   };
 
+  const validate = useCallback((data) => {
+    const errors = validator(data, validatorConfig);
+    setErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  }, []);
+
   const getFormSubmit = () => {
-    // const errors = validator(formData, validatorConfig);
-    // setErrors(errors);
-    // client
-    //   .post('users', formData, { headers: { Token: token } })
-    //   .then((response) => console.log(response));
+    const isValid = validate(formData);
+
+    console.log(formData);
+
+    if (!isValid) return;
+
+    client
+      .post('users', { formData, headers: { Token: token } })
+      .then((response) => console.log(response));
   };
 
   const getToken = () => {
@@ -57,13 +74,6 @@ export const Form = () => {
       .get('positions')
       .then((response) => setPositions(response.positions));
   };
-
-  const validate = useCallback((data) => {
-    const errors = validator(data, validatorConfig);
-    setErrors(errors);
-
-    return Object.keys(errors).length === 0;
-  }, []);
 
   useEffect(() => {
     validate(formData);
@@ -172,7 +182,7 @@ export const Form = () => {
                       value={position.id}
                       id={position.id}
                       defaultChecked={
-                        formData.position_id === position.id.toString()
+                        Number(formData.position_id) === position.id
                       }
                       onChange={handleChange}
                     />
@@ -184,8 +194,8 @@ export const Form = () => {
             <fieldset
               className={classnames(
                 styles.fieldset,
-                styles.file
-                // styles.fileError
+                styles.file,
+                errors.photo && dirtyInput.photo && styles.fileError
               )}
             >
               <legend
@@ -193,17 +203,25 @@ export const Form = () => {
               >
                 Upload your photo
               </legend>
-              <label htmlFor="photo">Upload your photo</label>
+              <label htmlFor="photo">
+                {formData.photo?.name || 'Upload your photo'}
+              </label>
               <input
                 type="file"
                 name="photo"
                 id="photo"
                 accept="image/*"
-                // onChange={handleChange}
+                onChange={handleChange}
               />
-              {/* <span className={styles.helper}>Helper text</span> */}
+              {errors.photo && dirtyInput.photo && (
+                <span className={styles.helper}>{errors.photo}</span>
+              )}
             </fieldset>
-            <Button title="Sign up" onClick={() => getFormSubmit()} />
+            <Button
+              title="Sign up"
+              onClick={() => getFormSubmit()}
+              disabled={Object.keys(errors).length}
+            />
           </form>
         </div>
       </Container>
