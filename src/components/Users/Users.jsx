@@ -1,10 +1,12 @@
 import { Button, Container, UserCard } from '..';
 
+import { Preloader } from '../Preloader';
 import styles from './Users.module.scss';
 import { useUsers } from '../../hooks';
 
 export const Users = () => {
-  const { users, currentPage, totalPage, setCurrentPage } = useUsers();
+  const { users, currentPage, totalPage, setCurrentPage, isLoading } =
+    useUsers();
 
   const handleClick = () => {
     setCurrentPage((prevState) => prevState + 1);
@@ -15,15 +17,19 @@ export const Users = () => {
       <Container>
         <div className={styles.wrapper}>
           <h2 className={styles.title}>Working with GET request</h2>
-          <ul className={styles.list}>
-            {users.map((user) => (
-              <UserCard key={user.id} {...user} />
-            ))}
-          </ul>
+          {isLoading ? (
+            <Preloader />
+          ) : (
+            <ul className={styles.list}>
+              {users.map((user) => (
+                <UserCard key={user.id} {...user} />
+              ))}
+            </ul>
+          )}
           <Button
             title="Show more"
             onClick={handleClick}
-            disabled={currentPage === totalPage}
+            disabled={isLoading || currentPage === totalPage}
           />
         </div>
       </Container>
