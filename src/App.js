@@ -1,5 +1,10 @@
 import { OnePage } from './pages';
+import { UsersProvider } from './hooks';
 
 export default function App() {
-  return <OnePage />;
+  return (
+    <UsersProvider>
+      <OnePage />
+    </UsersProvider>
+  );
 }

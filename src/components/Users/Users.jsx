@@ -1,24 +1,14 @@
 import { Button, Container, UserCard } from '..';
-import { useEffect, useState } from 'react';
 
-import { client } from '../../config';
 import styles from './Users.module.scss';
+import { useUsers } from '../../hooks';
 
 export const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
+  const { users, currentPage, totalPage, setCurrentPage } = useUsers();
 
-  const getUsers = (page) => {
-    client.get(`users?page=${page}&count=6`).then((response) => {
-      setTotalPage(response.total_pages);
-      setUsers(response.users);
-    });
+  const handleClick = () => {
+    setCurrentPage((prevState) => prevState + 1);
   };
-
-  useEffect(() => {
-    getUsers(currentPage);
-  }, [currentPage]);
 
   return (
     <section className={styles.users} id="users">
@@ -32,7 +22,7 @@ export const Users = () => {
           </ul>
           <Button
             title="Show more"
-            onClick={() => setCurrentPage((prevState) => prevState + 1)}
+            onClick={handleClick}
             disabled={currentPage === totalPage}
           />
         </div>
