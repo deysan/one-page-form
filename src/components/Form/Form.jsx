@@ -2,6 +2,7 @@ import { Button, Container } from '..';
 import { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
+import { client } from '../../config';
 import styles from './Form.module.scss';
 
 export const Form = () => {
@@ -11,7 +12,7 @@ export const Form = () => {
     name: '',
     email: '',
     phone: '',
-    position: 1,
+    position_id: 1,
     file: ''
   });
 
@@ -24,25 +25,25 @@ export const Form = () => {
     }));
   };
 
-  console.log(token);
-  console.log(formData);
-
   const getFormSubmit = () => {
-    fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', {
-      method: 'POST',
-      body: formData,
-      headers: { Token: token }
-    }).then((response) => console.log(response));
+    client
+      .post('users', formData, { headers: { Token: token } })
+      .then((response) => console.log(response));
+  };
+
+  const getToken = () => {
+    client.get('token').then((response) => setToken(response.token));
+  };
+
+  const getPositions = () => {
+    client
+      .get('positions')
+      .then((response) => setPositions(response.positions));
   };
 
   useEffect(() => {
-    fetch('https://frontend-test-assignment-api.abz.agency/api/v1/token')
-      .then((response) => response.json())
-      .then((data) => setToken(data.token));
-
-    fetch('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
-      .then((response) => response.json())
-      .then((data) => setPositions(data.positions));
+    getToken();
+    getPositions();
   }, []);
 
   return (
@@ -119,7 +120,7 @@ export const Form = () => {
                       name="position"
                       value={position.id}
                       id={position.id}
-                      defaultChecked={formData.position === position.id}
+                      defaultChecked={formData.position_id === position.id}
                       // checked={formData.position === position.id}
                       onChange={handleChange}
                     />
@@ -144,7 +145,7 @@ export const Form = () => {
               <input type="file" name="photo" id="photo" accept="image/*" />
               {/* <span className={styles.helper}>Helper text</span> */}
             </fieldset>
-            <Button title="Sign up" onClick={() => getFormSubmit()} disabled />
+            <Button title="Sign up" onClick={() => getFormSubmit()} />
           </form>
         </div>
       </Container>

@@ -1,6 +1,7 @@
 import { Button, Container, UserCard } from '..';
 import { useEffect, useState } from 'react';
 
+import { client } from '../../config';
 import styles from './Users.module.scss';
 
 export const Users = () => {
@@ -8,15 +9,15 @@ export const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
 
+  const getUsers = (page) => {
+    client.get(`users?page=${page}&count=6`).then((response) => {
+      setTotalPage(response.total_pages);
+      setUsers(response.users);
+    });
+  };
+
   useEffect(() => {
-    fetch(
-      `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${currentPage}&count=6`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setTotalPage(data.total_pages);
-        setUsers(data.users);
-      });
+    getUsers(currentPage);
   }, [currentPage]);
 
   return (
