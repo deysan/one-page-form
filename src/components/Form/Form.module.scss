@@ -63,8 +63,8 @@
   cursor: text;
 }
 
-.contactField input:focus + label,
-.contactField input:valid + label {
+.contactField input.dirty + label,
+.contactField input:focus + label {
   top: 0;
   font-size: 12px;
   font-weight: 500;
@@ -77,7 +77,8 @@
   border: 2px solid var(--error-color);
 }
 
-.contactFieldError .helper {
+.contactFieldError .helper,
+.contactFieldError input.dirty + label {
   color: var(--error-color);
 }
 
