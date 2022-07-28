@@ -13,6 +13,7 @@ export const Button = ({ title, link, onClick, disabled }) => {
   ) : (
     <button
       type="submit"
+      onClick={onClick}
       className={classnames(styles.btn, disabled && styles.disabled)}
     >
       {title}
