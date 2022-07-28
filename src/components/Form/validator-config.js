@@ -45,8 +45,8 @@ export const validatorConfig = {
     isRequired: {
       message: 'File is required'
     },
-    maxSize: {
-      message: 'File size should not exceed 5mb',
+    isImage: {
+      message: 'File size should not exceed 5mb and 70x70',
       value: 5242880
     }
   }
