@@ -1,13 +1,16 @@
 import { Button, Container } from '..';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 import { client } from '../../config';
 import styles from './Form.module.scss';
+import { useUsers } from '../../hooks';
 import { validator } from '../../utils';
 import { validatorConfig } from './validator-config';
 
 export const Form = () => {
+  const { getUsers } = useUsers();
+  const formRef = useRef(null);
   const [token, setToken] = useState('');
   const [positions, setPositions] = useState([]);
   const [formData, setFormData] = useState({
@@ -53,16 +56,22 @@ export const Form = () => {
     return Object.keys(errors).length === 0;
   }, []);
 
-  const getFormSubmit = () => {
-    const isValid = validate(formData);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    console.log(formData);
+    const isValid = validate(formData);
 
     if (!isValid) return;
 
+    const data = new FormData(formRef.current);
+
     client
-      .post('users', { formData, headers: { Token: token } })
-      .then((response) => console.log(response));
+      .post('users', data, { headers: { Token: token } })
+      .then((response) => {
+        if (response.success === true) {
+          getUsers(1);
+        }
+      });
   };
 
   const getToken = () => {
@@ -89,7 +98,7 @@ export const Form = () => {
       <Container>
         <div className={styles.wrapper}>
           <h2 className={styles.title}>Working with POST request</h2>
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
             <fieldset className={styles.fieldset}>
               <legend
                 className={classnames(styles.legend, styles.visuallyHidden)}
@@ -131,6 +140,7 @@ export const Form = () => {
                     type="email"
                     name="email"
                     id="email"
+                    value={formData.email}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     className={classnames(
@@ -154,6 +164,7 @@ export const Form = () => {
                     type="tel"
                     name="phone"
                     id="phone"
+                    value={formData.phone}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     className={classnames(
@@ -178,12 +189,10 @@ export const Form = () => {
                   <li className={styles.select} key={position.id}>
                     <input
                       type="radio"
-                      name="position"
-                      value={position.id}
+                      name="position_id"
                       id={position.id}
-                      defaultChecked={
-                        Number(formData.position_id) === position.id
-                      }
+                      value={position.id}
+                      defaultChecked={+formData.position_id === position.id}
                       onChange={handleChange}
                     />
                     <label htmlFor={position.id}>{position.name}</label>
@@ -210,18 +219,14 @@ export const Form = () => {
                 type="file"
                 name="photo"
                 id="photo"
-                accept="image/*"
+                accept="image/jpeg, image/jpg"
                 onChange={handleChange}
               />
               {errors.photo && dirtyInput.photo && (
                 <span className={styles.helper}>{errors.photo}</span>
               )}
             </fieldset>
-            <Button
-              title="Sign up"
-              onClick={() => getFormSubmit()}
-              disabled={Object.keys(errors).length}
-            />
+            <Button title="Sign up" disabled={Object.keys(errors).length} />
           </form>
         </div>
       </Container>

@@ -1,21 +1,16 @@
 const URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/';
 
 export const client = async (endPoint, { body, ...customConfig }) => {
-  const headers = {
-    'Content-Type': 'application/json'
-  };
-
   const config = {
     method: body ? 'POST' : 'GET',
     ...customConfig,
     headers: {
-      ...headers,
       ...customConfig.headers
     }
   };
 
   if (body) {
-    config.body = JSON.stringify(body);
+    config.body = body;
   }
 
   try {
