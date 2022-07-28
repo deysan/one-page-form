@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import styles from './Button.module.scss';
 
 export const Button = ({ title, link, onClick, disabled }) => {
-  return (
+  return link ? (
     <a
       className={classnames(styles.btn, disabled && styles.disabled)}
       href={link}
@@ -10,5 +10,12 @@ export const Button = ({ title, link, onClick, disabled }) => {
     >
       {title}
     </a>
+  ) : (
+    <button
+      type="submit"
+      className={classnames(styles.btn, disabled && styles.disabled)}
+    >
+      {title}
+    </button>
   );
 };
