@@ -1,11 +1,11 @@
 import { Button, Container } from '..';
+import { formatNumber, validator } from '../../utils';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 import { client } from '../../config';
 import styles from './Form.module.scss';
 import { useUsers } from '../../hooks';
-import { validator } from '../../utils';
 import { validatorConfig } from './validator-config';
 
 export const Form = () => {
@@ -37,7 +37,14 @@ export const Form = () => {
 
     setFormData((prevState) => ({
       ...prevState,
-      [name]: name === 'photo' ? files[0] : value
+      [name]:
+        name === 'email'
+          ? value.trim()
+          : name === 'photo'
+          ? files[0]
+          : name === 'phone'
+          ? '+' + value.replace(/[^\d]/g, '')
+          : value
     }));
   };
 
@@ -64,6 +71,7 @@ export const Form = () => {
     if (!isValid) return;
 
     const data = new FormData(formRef.current);
+    data.set('phone', formData.phone);
 
     client
       .post('users', data, { headers: { Token: token } })
@@ -164,7 +172,8 @@ export const Form = () => {
                     type="tel"
                     name="phone"
                     id="phone"
-                    value={formData.phone}
+                    maxLength="13"
+                    value={formatNumber(formData.phone)}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     className={classnames(

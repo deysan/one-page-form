@@ -1,4 +1,5 @@
 import Placeholder from './avatar-placeholder.svg';
+import { formatNumber } from '../../utils';
 import styles from './UserCard.module.scss';
 
 export const UserCard = ({ photo, name, position, email, phone }) => {
@@ -26,7 +27,7 @@ export const UserCard = ({ photo, name, position, email, phone }) => {
           </a>
           <br />
           <a className={styles.text} href={`tel:${phone}`}>
-            {phone}
+            {formatNumber(phone)}
           </a>
         </div>
       </div>
