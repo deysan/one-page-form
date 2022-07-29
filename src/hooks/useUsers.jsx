@@ -16,11 +16,17 @@ export const UsersProvider = ({ children }) => {
 
   const getUsers = (page) => {
     setLoading(true);
-    client.get(`users?page=${page}&count=6`).then((response) => {
-      setTotalPage(response.total_pages);
-      setUsers(response.users);
-      setTimeout(() => setLoading(false), 500);
-    });
+    client
+      .get(`users?page=${page}&count=6`)
+      .then((response) => {
+        setTotalPage(response.total_pages);
+        setUsers(response.users);
+      })
+      .finally(
+        setTimeout(() => {
+          setLoading(false);
+        }, 500)
+      );
   };
 
   useEffect(() => {

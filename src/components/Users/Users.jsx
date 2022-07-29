@@ -1,6 +1,5 @@
-import { Button, Container, UserCard } from '..';
+import { Button, Container, Preloader, UserCard } from '..';
 
-import { Preloader } from '../Preloader';
 import styles from './Users.module.scss';
 import { useUsers } from '../../hooks';
 

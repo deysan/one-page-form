@@ -1,4 +1,4 @@
-import { Button, Container } from '..';
+import { Button, Container, Preloader } from '..';
 import { formatNumber, validator } from '../../utils';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -8,7 +8,7 @@ import styles from './Form.module.scss';
 import { useUsers } from '../../hooks';
 import { validatorConfig } from './validator-config';
 
-export const Form = () => {
+export const Form = ({ setSuccess }) => {
   const formRef = useRef(null);
   const [token, setToken] = useState('');
   const [positions, setPositions] = useState([]);
@@ -26,6 +26,7 @@ export const Form = () => {
     photo: false
   });
   const [errors, setErrors] = useState({});
+  const [isLoading, setLoading] = useState(false);
 
   const { getUsers } = useUsers();
 
@@ -86,13 +87,23 @@ export const Form = () => {
     const data = new FormData(formRef.current);
     data.set('phone', formData.phone);
 
+    setLoading(true);
+
     client
       .post('users', data, { headers: { Token: token } })
       .then((response) => {
         if (response.success === true) {
-          getUsers(1);
+          setTimeout(() => {
+            getUsers(1);
+            setSuccess(true);
+          }, 500);
         }
-      });
+      })
+      .finally(
+        setTimeout(() => {
+          setLoading(false);
+        }, 500)
+      );
   };
 
   const getToken = () => {
@@ -100,9 +111,17 @@ export const Form = () => {
   };
 
   const getPositions = () => {
+    setLoading(true);
     client
       .get('positions')
-      .then((response) => setPositions(response.positions));
+      .then((response) => {
+        setPositions(response.positions);
+      })
+      .finally(
+        setTimeout(() => {
+          setLoading(false);
+        }, 500)
+      );
   };
 
   useEffect(() => {
@@ -113,6 +132,8 @@ export const Form = () => {
     getToken();
     getPositions();
   }, []);
+
+  if (isLoading) return <Preloader />;
 
   return (
     <section id="signup">
