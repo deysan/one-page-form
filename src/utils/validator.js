@@ -56,8 +56,13 @@ export const validator = (data, config) => {
         statusValidate = !phoneRegExp.test(data);
         break;
       }
-      case 'isImage': {
+      case 'maxPhotoSize': {
         statusValidate = data.size > config.value;
+        break;
+      }
+      case 'minPhotoSize': {
+        statusValidate =
+          data.width < config.value || data.height < config.value;
         break;
       }
       default:

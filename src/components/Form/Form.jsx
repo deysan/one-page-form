@@ -9,7 +9,6 @@ import { useUsers } from '../../hooks';
 import { validatorConfig } from './validator-config';
 
 export const Form = () => {
-  const { getUsers } = useUsers();
   const formRef = useRef(null);
   const [token, setToken] = useState('');
   const [positions, setPositions] = useState([]);
@@ -28,11 +27,27 @@ export const Form = () => {
   });
   const [errors, setErrors] = useState({});
 
+  const { getUsers } = useUsers();
+
   const handleChange = (event) => {
     const { name, value, files } = event.target;
 
     if (name === 'photo') {
+      const photo = files[0];
+      const url = URL.createObjectURL(photo);
+      const image = new Image();
+
+      image.onload = () => {
+        photo.width = image.naturalWidth;
+        photo.height = image.naturalHeight;
+        setFormData((prevState) => ({ ...prevState, photo }));
+        URL.revokeObjectURL(url);
+      };
+      image.src = url;
+
       setDirtyInput((prevState) => ({ ...prevState, photo: true }));
+
+      return;
     }
 
     setFormData((prevState) => ({
@@ -40,8 +55,6 @@ export const Form = () => {
       [name]:
         name === 'email'
           ? value.trim()
-          : name === 'photo'
-          ? files[0]
           : name === 'phone'
           ? '+' + value.replace(/[^\d]/g, '')
           : value

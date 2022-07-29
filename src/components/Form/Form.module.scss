@@ -9,6 +9,7 @@
   gap: 18px;
   max-width: 380px;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .fieldset {
@@ -135,12 +136,15 @@
 
 .file label {
   width: 100%;
+  max-width: 380px;
   padding: 13px 15px;
   padding-left: 98px;
   color: #7e7e7e;
   border: 1px solid #d0cfcf;
   border-radius: 4px;
-  transition: all 0.3s;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   cursor: pointer;
 
   &::before {
