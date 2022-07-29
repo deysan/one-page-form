@@ -1,4 +1,4 @@
-import { Container, Form, Success, Users } from '..';
+import { Form, Success, Users } from '..';
 
 import styles from './Main.module.scss';
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-import { Header, Main } from '../../components';
+import { Footer, Header, Main } from '../../components';
 
 import React from 'react';
 
@@ -7,6 +7,7 @@ export const OnePage = () => {
     <>
       <Header />
       <Main />
+      <Footer />
     </>
   );
 };
