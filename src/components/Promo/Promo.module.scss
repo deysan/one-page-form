@@ -1,18 +1,42 @@
 .promo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding-top: 30px;
+  height: 560px;
+  margin: 0 auto;
+  padding-top: 60px;
   color: #ffffff;
-  background: linear-gradient(rgba(0, 0, 0, 0.5) 100%, rgba(0, 0, 0, 0.5) 100%),
-    url('./bg-image.jpeg');
-  background-position: center;
+  background-image: url('./img/bg-image-mobile.jpeg');
+  background-position-y: 60px;
   background-repeat: no-repeat;
   background-size: cover;
 
+  @media (min-resolution: 2dppx) {
+    background-image: url('./img/bg-image-mobile@2x.jpeg');
+  }
+
   @media (min-width: 768px) {
-    padding-top: 60px;
+    background-position-y: 30px;
+    background-image: url('./img/bg-image-tablet.jpeg');
+
+    @media (min-resolution: 2dppx) {
+      background-image: url('./img/bg-image-tablet@2x.jpeg');
+    }
+  }
+
+  @media (min-width: 1024px) {
+    height: 710px;
+    background-image: url('./img/bg-image-desktop.jpeg');
+
+    @media (min-resolution: 2dppx) {
+      background-image: url('./img/bg-image-desktop@2x.jpeg');
+    }
+  }
+
+  @media (min-width: 1440px) {
+    width: 1170px;
+    background-image: url('./img/bg-image-full.jpeg');
+
+    @media (min-resolution: 2dppx) {
+      background-image: url('./img/bg-image-full@2x.jpeg');
+    }
   }
 }
 
@@ -23,7 +47,16 @@
   gap: 20px;
   max-width: 380px;
   margin: 0 auto;
+  margin-top: 40px;
   text-align: center;
+
+  @media (min-width: 768px) {
+    margin-top: 90px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 165px;
+  }
 }
 
 .text {
