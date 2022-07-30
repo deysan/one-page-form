@@ -1,0 +1,51 @@
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 120px;
+}
+
+body,
+#root {
+  min-width: var(--mobile-width);
+  margin: 0;
+  color: var(--black);
+  background-color: var(--bg-color);
+  @include font-body;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include font-title;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

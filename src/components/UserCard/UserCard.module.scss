@@ -1,0 +1,58 @@
+.userWrapper {
+  position: relative;
+}
+
+.userCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.userImage {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userName {
+  margin: 0;
+  width: calc(100% - 20px);
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.userInfo {
+  width: calc(100% - 20px);
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tooltipText {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  z-index: 10;
+  width: max-content;
+  padding: 3px 16px;
+  text-align: center;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.87);
+  border-radius: 4px;
+  visibility: hidden;
+  transform: translateX(-50%);
+}
+
+.text:hover .tooltipText {
+  visibility: visible;
+}
