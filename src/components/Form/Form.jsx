@@ -5,10 +5,24 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
 import { client } from '../../config';
 import styles from './Form.module.scss';
+import { useForm } from 'react-hook-form';
 import { useUsers } from '../../hooks';
 import { validatorConfig } from './validator-config';
 
 export const Form = ({ setSuccess }) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, dirtyFields, isDirty, isValid }
+  } = useForm({
+    mode: 'all',
+    defaultValues: {
+      position_id: '1'
+    }
+  });
+
   const formRef = useRef(null);
   const [token, setToken] = useState('');
   const [positions, setPositions] = useState([]);
@@ -19,13 +33,13 @@ export const Form = ({ setSuccess }) => {
     position_id: '1',
     photo: {}
   });
-  const [dirtyInput, setDirtyInput] = useState({
-    name: false,
-    email: false,
-    phone: false,
-    photo: false
-  });
-  const [errors, setErrors] = useState({});
+  // const [dirtyInput, setDirtyInput] = useState({
+  //   name: false,
+  //   email: false,
+  //   phone: false,
+  //   photo: false
+  // });
+  // const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 
   const { getUsers } = useUsers();
@@ -46,7 +60,7 @@ export const Form = ({ setSuccess }) => {
       };
       image.src = url;
 
-      setDirtyInput((prevState) => ({ ...prevState, photo: true }));
+      // setDirtyInput((prevState) => ({ ...prevState, photo: true }));
 
       return;
     }
@@ -64,46 +78,48 @@ export const Form = ({ setSuccess }) => {
 
   const handleBlur = (event) => {
     const { name } = event.target;
-    setDirtyInput((prevState) => ({
-      ...prevState,
-      [name]: true
-    }));
+    // setDirtyInput((prevState) => ({
+    //   ...prevState,
+    //   [name]: true
+    // }));
   };
 
   const validate = useCallback((data) => {
     const errors = validator(data, validatorConfig);
-    setErrors(errors);
+    // setErrors(errors);
 
     return Object.keys(errors).length === 0;
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (data) => {
+    // event.preventDefault();
 
-    const isValid = validate(formData);
+    console.log(data);
 
-    if (!isValid) return;
+    // const isValid = validate(formData);
 
-    const data = new FormData(formRef.current);
-    data.set('phone', formData.phone);
+    // if (!isValid) return;
 
-    setLoading(true);
+    // const data = new FormData(formRef.current);
+    // data.set('phone', formData.phone);
 
-    client
-      .post('users', data, { headers: { Token: token } })
-      .then((response) => {
-        if (response.success === true) {
-          setTimeout(() => {
-            getUsers(1);
-            setSuccess(true);
-          }, 500);
-        }
-      })
-      .finally(
-        setTimeout(() => {
-          setLoading(false);
-        }, 500)
-      );
+    // setLoading(true);
+
+    // client
+    //   .post('users', data, { headers: { Token: token } })
+    //   .then((response) => {
+    //     if (response.success === true) {
+    //       setTimeout(() => {
+    //         getUsers(1);
+    //         setSuccess(true);
+    //       }, 500);
+    //     }
+    //   })
+    //   .finally(
+    //     setTimeout(() => {
+    //       setLoading(false);
+    //     }, 500)
+    //   );
   };
 
   const getToken = () => {
@@ -124,6 +140,9 @@ export const Form = ({ setSuccess }) => {
       );
   };
 
+  console.log(errors);
+  console.log(isValid);
+
   useEffect(() => {
     validate(formData);
   }, [formData, validate]);
@@ -140,7 +159,11 @@ export const Form = ({ setSuccess }) => {
       <Container>
         <div className={styles.wrapper}>
           <h2 className={styles.title}>Working with POST request</h2>
-          <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit(onSubmit)}
+            ref={formRef}
+          >
             <fieldset className={styles.fieldset}>
               <legend
                 className={classnames(styles.legend, styles.visuallyHidden)}
@@ -151,77 +174,61 @@ export const Form = ({ setSuccess }) => {
                 <div
                   className={classnames(
                     styles.contactField,
-                    errors.name && dirtyInput.name && styles.contactFieldError
+                    errors.name && styles.contactFieldError
                   )}
                 >
                   <input
                     type="text"
-                    name="name"
                     id="name"
-                    value={formData.name}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
+                    {...register('name', {
+                      required: true
+                    })}
                     className={classnames(
-                      formData.name.length > 0 &&
-                        dirtyInput.name &&
-                        styles.dirty
+                      watch('name')?.length > 0 && styles.dirty
                     )}
                   />
                   <label htmlFor="name">Your name</label>
-                  {errors.name && dirtyInput.name && (
-                    <span className={styles.helper}>{errors.name}</span>
+                  {errors.name && (
+                    <span className={styles.helper}>{errors.name.message}</span>
                   )}
                 </div>
                 <div
                   className={classnames(
                     styles.contactField,
-                    errors.email && dirtyInput.email && styles.contactFieldError
+                    errors.email && styles.contactFieldError
                   )}
                 >
                   <input
                     type="email"
-                    name="email"
                     id="email"
-                    value={formData.email}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
+                    {...register('email', { required: true })}
                     className={classnames(
-                      formData.email.length > 0 &&
-                        dirtyInput.email &&
-                        styles.dirty
+                      watch('email')?.length > 0 && styles.dirty
                     )}
                   />
                   <label htmlFor="email">Email</label>
-                  {errors.email && dirtyInput.email && (
-                    <span className={styles.helper}>{errors.email}</span>
+                  {errors.email && (
+                    <span className={styles.helper}>
+                      {errors.email.message}
+                    </span>
                   )}
                 </div>
                 <div
                   className={classnames(
                     styles.contactField,
-                    errors.phone && dirtyInput.phone && styles.contactFieldError
+                    errors.phone && styles.contactFieldError
                   )}
                 >
                   <input
                     type="tel"
-                    name="phone"
                     id="phone"
-                    maxLength="13"
-                    value={formatNumber(formData.phone)}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
+                    {...register('phone', { required: true })}
                     className={classnames(
-                      formData.phone.length > 0 &&
-                        dirtyInput.phone &&
-                        styles.dirty
+                      watch('phone')?.length > 0 && styles.dirty
                     )}
                   />
                   <label htmlFor="phone">Phone</label>
-                  {errors.phone && (
-                    <span className={styles.helper}>
-                      +38 (XXX) XXX - XX - XX
-                    </span>
-                  )}
+                  <span className={styles.helper}>+38 (XXX) XXX - XX - XX</span>
                 </div>
               </div>
             </fieldset>
@@ -232,11 +239,8 @@ export const Form = ({ setSuccess }) => {
                   <li className={styles.select} key={position.id}>
                     <input
                       type="radio"
-                      name="position_id"
                       id={position.id}
-                      value={position.id}
-                      defaultChecked={+formData.position_id === position.id}
-                      onChange={handleChange}
+                      {...register('position_id', { required: true })}
                     />
                     <label htmlFor={position.id}>{position.name}</label>
                   </li>
@@ -247,7 +251,7 @@ export const Form = ({ setSuccess }) => {
               className={classnames(
                 styles.fieldset,
                 styles.file,
-                errors.photo && dirtyInput.photo && styles.fileError
+                errors.photo && styles.fileError
               )}
             >
               <legend
@@ -260,16 +264,19 @@ export const Form = ({ setSuccess }) => {
               </label>
               <input
                 type="file"
-                name="photo"
                 id="photo"
+                {...register('photo', { required: true })}
                 accept="image/jpeg, image/jpg"
-                onChange={handleChange}
+                // onChange={handleChange}
               />
-              {errors.photo && dirtyInput.photo && (
-                <span className={styles.helper}>{errors.photo}</span>
+              {errors.photo && (
+                <span className={styles.helper}>{errors.photo.message}</span>
               )}
             </fieldset>
-            <Button title="Sign up" disabled={Object.keys(errors).length} />
+            <Button
+              title="Sign up"
+              // disabled={!isValid}
+            />
           </form>
         </div>
       </Container>
