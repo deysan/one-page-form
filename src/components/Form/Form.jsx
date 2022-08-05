@@ -1,13 +1,14 @@
 import { Button, Container, Preloader } from '..';
-import { formatNumber, validator } from '../../utils';
 import { useController, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 import { client } from '../../config';
+import { formatNumber } from '../../utils';
 import styles from './Form.module.scss';
 import { useUsers } from '../../hooks';
-import { validatorConfig } from './validator-config';
+import { validationSchema } from './validation-schema';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const Form = ({ setSuccess }) => {
   const {
@@ -24,7 +25,8 @@ export const Form = ({ setSuccess }) => {
       phone: '',
       position_id: '1',
       photo: undefined
-    }
+    },
+    resolver: yupResolver(validationSchema)
   });
 
   const { field: nameField } = useController({
