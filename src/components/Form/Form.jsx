@@ -1,26 +1,54 @@
 import { Button, Container, Preloader } from '..';
 import { formatNumber, validator } from '../../utils';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useController, useForm } from 'react-hook-form';
 
 import classnames from 'classnames';
 import { client } from '../../config';
 import styles from './Form.module.scss';
-import { useForm } from 'react-hook-form';
 import { useUsers } from '../../hooks';
 import { validatorConfig } from './validator-config';
 
 export const Form = ({ setSuccess }) => {
   const {
+    control,
     register,
     handleSubmit,
     reset,
-    watch,
-    formState: { errors, dirtyFields, isDirty, isValid }
+    setValue,
+    formState: { errors, isValid }
   } = useForm({
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
       position_id: '1'
     }
+  });
+
+  const { field: nameField } = useController({
+    control,
+    name: 'name',
+    rules: { required: true }
+  });
+
+  const { field: emailField } = useController({
+    control,
+    name: 'email',
+    rules: { required: true }
+  });
+
+  const { field: phoneField } = useController({
+    control,
+    name: 'phone',
+    rules: { required: true }
+  });
+
+  const { field: photoField } = useController({
+    control,
+    name: 'photo',
+    rules: { required: true }
   });
 
   const formRef = useRef(null);
@@ -33,12 +61,6 @@ export const Form = ({ setSuccess }) => {
     position_id: '1',
     photo: {}
   });
-  // const [dirtyInput, setDirtyInput] = useState({
-  //   name: false,
-  //   email: false,
-  //   phone: false,
-  //   photo: false
-  // });
   // const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 
@@ -76,14 +98,6 @@ export const Form = ({ setSuccess }) => {
     }));
   };
 
-  const handleBlur = (event) => {
-    const { name } = event.target;
-    // setDirtyInput((prevState) => ({
-    //   ...prevState,
-    //   [name]: true
-    // }));
-  };
-
   const validate = useCallback((data) => {
     const errors = validator(data, validatorConfig);
     // setErrors(errors);
@@ -92,8 +106,6 @@ export const Form = ({ setSuccess }) => {
   }, []);
 
   const onSubmit = (data) => {
-    // event.preventDefault();
-
     console.log(data);
 
     // const isValid = validate(formData);
@@ -140,9 +152,6 @@ export const Form = ({ setSuccess }) => {
       );
   };
 
-  console.log(errors);
-  console.log(isValid);
-
   useEffect(() => {
     validate(formData);
   }, [formData, validate]);
@@ -178,14 +187,16 @@ export const Form = ({ setSuccess }) => {
                   )}
                 >
                   <input
+                    {...nameField}
                     type="text"
                     id="name"
-                    {...register('name', {
-                      required: true
-                    })}
+                    value={nameField.value}
                     className={classnames(
-                      watch('name')?.length > 0 && styles.dirty
+                      nameField.value?.length > 0 && styles.dirty
                     )}
+                    onChange={(event) => {
+                      nameField.onChange(event.target.value.trimStart());
+                    }}
                   />
                   <label htmlFor="name">Your name</label>
                   {errors.name && (
@@ -199,12 +210,16 @@ export const Form = ({ setSuccess }) => {
                   )}
                 >
                   <input
+                    {...emailField}
                     type="email"
                     id="email"
-                    {...register('email', { required: true })}
+                    value={emailField.value}
                     className={classnames(
-                      watch('email')?.length > 0 && styles.dirty
+                      emailField.value?.length > 0 && styles.dirty
                     )}
+                    onChange={(event) => {
+                      emailField.onChange(event.target.value.trimStart());
+                    }}
                   />
                   <label htmlFor="email">Email</label>
                   {errors.email && (
@@ -220,12 +235,19 @@ export const Form = ({ setSuccess }) => {
                   )}
                 >
                   <input
+                    {...phoneField}
                     type="tel"
                     id="phone"
-                    {...register('phone', { required: true })}
+                    value={formatNumber(phoneField.value || '')}
+                    maxLength={13}
                     className={classnames(
-                      watch('phone')?.length > 0 && styles.dirty
+                      phoneField.value?.length > 0 && styles.dirty
                     )}
+                    onChange={(event) => {
+                      phoneField.onChange(
+                        '+' + event.target.value.replace(/[^\d]/g, '')
+                      );
+                    }}
                   />
                   <label htmlFor="phone">Phone</label>
                   <span className={styles.helper}>+38 (XXX) XXX - XX - XX</span>
@@ -240,6 +262,7 @@ export const Form = ({ setSuccess }) => {
                     <input
                       type="radio"
                       id={position.id}
+                      value={position.id}
                       {...register('position_id', { required: true })}
                     />
                     <label htmlFor={position.id}>{position.name}</label>
@@ -260,14 +283,17 @@ export const Form = ({ setSuccess }) => {
                 Upload your photo
               </legend>
               <label htmlFor="photo">
-                {formData.photo?.name || 'Upload your photo'}
+                {photoField.value?.name || 'Upload your photo'}
               </label>
               <input
+                ref={photoField.ref}
                 type="file"
                 id="photo"
-                {...register('photo', { required: true })}
+                name="photo"
                 accept="image/jpeg, image/jpg"
-                // onChange={handleChange}
+                onChange={(event) => {
+                  photoField.onChange(event.target.files[0]);
+                }}
               />
               {errors.photo && (
                 <span className={styles.helper}>{errors.photo.message}</span>
