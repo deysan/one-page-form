@@ -1,10 +1,9 @@
-import { Button, Container, Preloader } from '..';
+import { Button, Container, Preloader, TextField } from '..';
 import { useController, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 import { client } from '../../config';
-import { formatNumber } from '../../utils';
 import styles from './Form.module.scss';
 import { useUsers } from '../../hooks';
 import { validationSchema } from './validation-schema';
@@ -163,78 +162,18 @@ export const Form = ({ setSuccess }) => {
                 Write your contacts
               </legend>
               <div className={styles.contacts}>
-                <div
-                  className={classnames(
-                    styles.contactField,
-                    errors.name && styles.contactFieldError
-                  )}
-                >
-                  <input
-                    {...nameField}
-                    type="text"
-                    id="name"
-                    value={nameField.value}
-                    className={classnames(
-                      nameField.value?.length > 0 && styles.dirty
-                    )}
-                    onChange={(event) => {
-                      nameField.onChange(event.target.value.trimStart());
-                    }}
-                  />
-                  <label htmlFor="name">Your name</label>
-                  {errors.name && (
-                    <span className={styles.helper}>{errors.name.message}</span>
-                  )}
-                </div>
-                <div
-                  className={classnames(
-                    styles.contactField,
-                    errors.email && styles.contactFieldError
-                  )}
-                >
-                  <input
-                    {...emailField}
-                    type="email"
-                    id="email"
-                    value={emailField.value}
-                    className={classnames(
-                      emailField.value?.length > 0 && styles.dirty
-                    )}
-                    onChange={(event) => {
-                      emailField.onChange(event.target.value.trimStart());
-                    }}
-                  />
-                  <label htmlFor="email">Email</label>
-                  {errors.email && (
-                    <span className={styles.helper}>
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
-                <div
-                  className={classnames(
-                    styles.contactField,
-                    errors.phone && styles.contactFieldError
-                  )}
-                >
-                  <input
-                    {...phoneField}
-                    type="tel"
-                    id="phone"
-                    value={formatNumber(phoneField.value || '')}
-                    maxLength={13}
-                    className={classnames(
-                      phoneField.value?.length > 0 && styles.dirty
-                    )}
-                    onChange={(event) => {
-                      phoneField.onChange(
-                        '+' + event.target.value.replace(/[^\d]/g, '')
-                      );
-                    }}
-                  />
-                  <label htmlFor="phone">Phone</label>
-                  <span className={styles.helper}>+38 (XXX) XXX - XX - XX</span>
-                </div>
+                <TextField
+                  label="Your name"
+                  field={nameField}
+                  errors={errors}
+                />
+                <TextField label="Email" field={emailField} errors={errors} />
+                <TextField
+                  label="Phone"
+                  type="tel"
+                  field={phoneField}
+                  errors={errors}
+                />
               </div>
             </fieldset>
             <fieldset className={styles.fieldset}>

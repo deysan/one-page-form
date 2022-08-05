@@ -8,5 +8,6 @@ export * from './NavBar';
 export * from './Preloader';
 export * from './Promo';
 export * from './Success';
+export * from './TextField';
 export * from './UserCard';
 export * from './Users';
