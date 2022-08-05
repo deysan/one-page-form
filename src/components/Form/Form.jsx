@@ -1,7 +1,7 @@
 import { Button, Container, Preloader } from '..';
 import { formatNumber, validator } from '../../utils';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 import { client } from '../../config';
@@ -15,15 +15,15 @@ export const Form = ({ setSuccess }) => {
     register,
     handleSubmit,
     reset,
-    setValue,
-    formState: { errors, isValid }
+    formState: { errors }
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
       name: '',
       email: '',
       phone: '',
-      position_id: '1'
+      position_id: '1',
+      photo: undefined
     }
   });
 
@@ -51,87 +51,76 @@ export const Form = ({ setSuccess }) => {
     rules: { required: true }
   });
 
-  const formRef = useRef(null);
   const [token, setToken] = useState('');
   const [positions, setPositions] = useState([]);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    position_id: '1',
-    photo: {}
-  });
-  // const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 
   const { getUsers } = useUsers();
 
-  const handleChange = (event) => {
-    const { name, value, files } = event.target;
+  // const handleChange = (event) => {
+  //   const { name, value, files } = event.target;
 
-    if (name === 'photo') {
-      const photo = files[0];
-      const url = URL.createObjectURL(photo);
-      const image = new Image();
+  //   if (name === 'photo') {
+  //     const photo = files[0];
+  //     const url = URL.createObjectURL(photo);
+  //     const image = new Image();
 
-      image.onload = () => {
-        photo.width = image.naturalWidth;
-        photo.height = image.naturalHeight;
-        setFormData((prevState) => ({ ...prevState, photo }));
-        URL.revokeObjectURL(url);
-      };
-      image.src = url;
+  //     image.onload = () => {
+  //       photo.width = image.naturalWidth;
+  //       photo.height = image.naturalHeight;
+  //       setFormData((prevState) => ({ ...prevState, photo }));
+  //       URL.revokeObjectURL(url);
+  //     };
+  //     image.src = url;
 
-      // setDirtyInput((prevState) => ({ ...prevState, photo: true }));
+  //     // setDirtyInput((prevState) => ({ ...prevState, photo: true }));
 
-      return;
-    }
+  //     return;
+  //   }
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]:
-        name === 'email'
-          ? value.trim()
-          : name === 'phone'
-          ? '+' + value.replace(/[^\d]/g, '')
-          : value
-    }));
-  };
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     [name]:
+  //       name === 'email'
+  //         ? value.trim()
+  //         : name === 'phone'
+  //         ? '+' + value.replace(/[^\d]/g, '')
+  //         : value
+  //   }));
+  // };
 
-  const validate = useCallback((data) => {
-    const errors = validator(data, validatorConfig);
-    // setErrors(errors);
+  // const validate = useCallback((data) => {
+  //   const errors = validator(data, validatorConfig);
+  //   // setErrors(errors);
 
-    return Object.keys(errors).length === 0;
-  }, []);
+  //   return Object.keys(errors).length === 0;
+  // }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const formData = new FormData();
 
-    // const isValid = validate(formData);
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
 
-    // if (!isValid) return;
+    setLoading(true);
 
-    // const data = new FormData(formRef.current);
-    // data.set('phone', formData.phone);
-
-    // setLoading(true);
-
-    // client
-    //   .post('users', data, { headers: { Token: token } })
-    //   .then((response) => {
-    //     if (response.success === true) {
-    //       setTimeout(() => {
-    //         getUsers(1);
-    //         setSuccess(true);
-    //       }, 500);
-    //     }
-    //   })
-    //   .finally(
-    //     setTimeout(() => {
-    //       setLoading(false);
-    //     }, 500)
-    //   );
+    client
+      .post('users', formData, { headers: { Token: token } })
+      .then((response) => {
+        if (response.success === true) {
+          setTimeout(() => {
+            getUsers(1);
+            setSuccess(true);
+            reset();
+          }, 500);
+        }
+      })
+      .finally(
+        setTimeout(() => {
+          setLoading(false);
+        }, 500)
+      );
   };
 
   const getToken = () => {
@@ -153,10 +142,6 @@ export const Form = ({ setSuccess }) => {
   };
 
   useEffect(() => {
-    validate(formData);
-  }, [formData, validate]);
-
-  useEffect(() => {
     getToken();
     getPositions();
   }, []);
@@ -168,11 +153,7 @@ export const Form = ({ setSuccess }) => {
       <Container>
         <div className={styles.wrapper}>
           <h2 className={styles.title}>Working with POST request</h2>
-          <form
-            className={styles.form}
-            onSubmit={handleSubmit(onSubmit)}
-            ref={formRef}
-          >
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <fieldset className={styles.fieldset}>
               <legend
                 className={classnames(styles.legend, styles.visuallyHidden)}
@@ -263,7 +244,9 @@ export const Form = ({ setSuccess }) => {
                       type="radio"
                       id={position.id}
                       value={position.id}
-                      {...register('position_id', { required: true })}
+                      {...register('position_id', {
+                        required: true
+                      })}
                     />
                     <label htmlFor={position.id}>{position.name}</label>
                   </li>
@@ -292,7 +275,17 @@ export const Form = ({ setSuccess }) => {
                 name="photo"
                 accept="image/jpeg, image/jpg"
                 onChange={(event) => {
-                  photoField.onChange(event.target.files[0]);
+                  const photo = event.target.files[0];
+                  const url = URL.createObjectURL(photo);
+                  const image = new Image();
+
+                  image.onload = () => {
+                    photo.width = image.naturalWidth;
+                    photo.height = image.naturalHeight;
+                    photoField.onChange(photo);
+                    URL.revokeObjectURL(url);
+                  };
+                  image.src = url;
                 }}
               />
               {errors.photo && (
