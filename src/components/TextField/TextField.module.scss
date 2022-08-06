@@ -1,0 +1,59 @@
+.textField {
+  position: relative;
+  margin-bottom: 21px;
+  border-top: 20px solid transparent;
+}
+
+.textField input {
+  width: 100%;
+  padding: 13px 15px;
+  font-family: 'Nunito', 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  color: var(--black);
+  background: none;
+  border: 1px solid #d0cfcf;
+  border-radius: 4px;
+  outline: none;
+}
+
+.textField label {
+  position: absolute;
+  left: 10px;
+  top: 26px;
+  padding: 0 5px;
+  color: #7e7e7e;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+  cursor: text;
+}
+
+.textField input.dirty + label,
+.textField input:focus + label {
+  top: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #7e7e7e;
+  background-color: var(--bg-color);
+}
+
+.textFieldError input {
+  padding: 12px 14px;
+  border: 2px solid var(--error-color);
+}
+
+.textFieldError .helper,
+.textFieldError input.dirty + label {
+  color: var(--error-color);
+}
+
+.helper {
+  position: absolute;
+  left: 3px;
+  bottom: -24px;
+  width: 100%;
+  padding: 0 13px;
+  font-size: 12px;
+  color: #7e7e7e;
+}
