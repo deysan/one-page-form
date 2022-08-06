@@ -1,8 +1,19 @@
 import classnames from 'classnames';
 import { formatNumber } from '../../utils';
 import styles from './TextField.module.scss';
+import { useController } from 'react-hook-form';
 
-export const TextField = ({ label, type = 'text', field, errors }) => {
+export const TextField = ({ name, label, type = 'text', control }) => {
+  const {
+    field,
+    formState: { errors }
+  } = useController({
+    control,
+    name,
+    rules: { required: true },
+    defaultValue: ''
+  });
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -25,7 +36,7 @@ export const TextField = ({ label, type = 'text', field, errors }) => {
     <div
       className={classnames(
         styles.textField,
-        errors[field.name] && styles.textFieldError
+        errors[name] && styles.textFieldError
       )}
     >
       <input
@@ -38,11 +49,9 @@ export const TextField = ({ label, type = 'text', field, errors }) => {
         maxLength={type === 'tel' ? 13 : ''}
       />
       <label htmlFor={field.name}>{label}</label>
-      {(type === 'tel' || errors[field.name]) && (
+      {(type === 'tel' || errors[name]) && (
         <span className={styles.helper}>
-          {type === 'tel'
-            ? '+38 (XXX) XXX - XX - XX'
-            : errors[field.name].message}
+          {type === 'tel' ? '+38 (XXX) XXX - XX - XX' : errors[name].message}
         </span>
       )}
     </div>

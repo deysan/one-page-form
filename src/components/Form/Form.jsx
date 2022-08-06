@@ -19,31 +19,10 @@ export const Form = ({ setSuccess }) => {
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
       position_id: '1',
       photo: undefined
     },
     resolver: yupResolver(validationSchema)
-  });
-
-  const { field: nameField } = useController({
-    control,
-    name: 'name',
-    rules: { required: true }
-  });
-
-  const { field: emailField } = useController({
-    control,
-    name: 'email',
-    rules: { required: true }
-  });
-
-  const { field: phoneField } = useController({
-    control,
-    name: 'phone',
-    rules: { required: true }
   });
 
   const { field: photoField } = useController({
@@ -162,17 +141,13 @@ export const Form = ({ setSuccess }) => {
                 Write your contacts
               </legend>
               <div className={styles.contacts}>
+                <TextField name="name" label="Your name" control={control} />
+                <TextField name="email" label="Email" control={control} />
                 <TextField
-                  label="Your name"
-                  field={nameField}
-                  errors={errors}
-                />
-                <TextField label="Email" field={emailField} errors={errors} />
-                <TextField
+                  name="phone"
                   label="Phone"
                   type="tel"
-                  field={phoneField}
-                  errors={errors}
+                  control={control}
                 />
               </div>
             </fieldset>
