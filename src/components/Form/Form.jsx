@@ -31,8 +31,6 @@ export const Form = ({ setSuccess }) => {
     return false;
   }, [formState.errors]);
 
-  console.log(isValid);
-
   const onSubmit = (data) => {
     const formData = new FormData();
 
