@@ -1,34 +1,21 @@
-import { Button, Container, Preloader, TextField } from '..';
-import { useController, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { Button, Container, FileInput, Preloader, TextField } from '..';
+import { useEffect, useMemo, useState } from 'react';
 
 import classnames from 'classnames';
 import { client } from '../../config';
 import styles from './Form.module.scss';
+import { useForm } from 'react-hook-form';
 import { useUsers } from '../../hooks';
 import { validationSchema } from './validation-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export const Form = ({ setSuccess }) => {
-  const {
-    control,
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm({
+  const { control, register, handleSubmit, reset, formState } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      position_id: '1',
-      photo: undefined
+      position_id: '1'
     },
     resolver: yupResolver(validationSchema)
-  });
-
-  const { field: photoField } = useController({
-    control,
-    name: 'photo',
-    rules: { required: true }
   });
 
   const [token, setToken] = useState('');
@@ -37,44 +24,14 @@ export const Form = ({ setSuccess }) => {
 
   const { getUsers } = useUsers();
 
-  // const handleChange = (event) => {
-  //   const { name, value, files } = event.target;
+  const isValid = useMemo(() => {
+    for (const key in formState.errors) {
+      return true;
+    }
+    return false;
+  }, [formState.errors]);
 
-  //   if (name === 'photo') {
-  //     const photo = files[0];
-  //     const url = URL.createObjectURL(photo);
-  //     const image = new Image();
-
-  //     image.onload = () => {
-  //       photo.width = image.naturalWidth;
-  //       photo.height = image.naturalHeight;
-  //       setFormData((prevState) => ({ ...prevState, photo }));
-  //       URL.revokeObjectURL(url);
-  //     };
-  //     image.src = url;
-
-  //     // setDirtyInput((prevState) => ({ ...prevState, photo: true }));
-
-  //     return;
-  //   }
-
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     [name]:
-  //       name === 'email'
-  //         ? value.trim()
-  //         : name === 'phone'
-  //         ? '+' + value.replace(/[^\d]/g, '')
-  //         : value
-  //   }));
-  // };
-
-  // const validate = useCallback((data) => {
-  //   const errors = validator(data, validatorConfig);
-  //   // setErrors(errors);
-
-  //   return Object.keys(errors).length === 0;
-  // }, []);
+  console.log(isValid);
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -169,49 +126,8 @@ export const Form = ({ setSuccess }) => {
                 ))}
               </ul>
             </fieldset>
-            <fieldset
-              className={classnames(
-                styles.fieldset,
-                styles.file,
-                errors.photo && styles.fileError
-              )}
-            >
-              <legend
-                className={classnames(styles.legend, styles.visuallyHidden)}
-              >
-                Upload your photo
-              </legend>
-              <label htmlFor="photo">
-                {photoField.value?.name || 'Upload your photo'}
-              </label>
-              <input
-                ref={photoField.ref}
-                type="file"
-                id="photo"
-                name="photo"
-                accept="image/jpeg, image/jpg"
-                onChange={(event) => {
-                  const photo = event.target.files[0];
-                  const url = URL.createObjectURL(photo);
-                  const image = new Image();
-
-                  image.onload = () => {
-                    photo.width = image.naturalWidth;
-                    photo.height = image.naturalHeight;
-                    photoField.onChange(photo);
-                    URL.revokeObjectURL(url);
-                  };
-                  image.src = url;
-                }}
-              />
-              {errors.photo && (
-                <span className={styles.helper}>{errors.photo.message}</span>
-              )}
-            </fieldset>
-            <Button
-              title="Sign up"
-              // disabled={!isValid}
-            />
+            <FileInput name="photo" control={control} />
+            <Button title="Sign up" disabled={isValid} />
           </form>
         </div>
       </Container>

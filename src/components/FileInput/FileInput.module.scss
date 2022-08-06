@@ -1,0 +1,85 @@
+.fieldset {
+  display: flex;
+  gap: 11px;
+  margin: 0;
+  margin-top: 5px;
+  padding: 0;
+  border: none;
+}
+
+.legend {
+  margin-bottom: 9px;
+  padding: 0;
+}
+
+.file {
+  position: relative;
+  margin-top: 22px;
+  margin-bottom: 32px;
+}
+
+.file input {
+  display: none;
+}
+
+.file label {
+  width: 100%;
+  max-width: 380px;
+  padding: 13px 15px;
+  padding-left: 98px;
+  color: #7e7e7e;
+  border: 1px solid #d0cfcf;
+  border-radius: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  &::before {
+    content: 'Upload';
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 13px 15px;
+    color: rgba(0, 0, 0, 0.87);
+    border: 1px solid rgba(0, 0, 0, 0.87);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+}
+
+.fileError label {
+  padding: 12px 14px;
+  padding-left: 96px;
+  border: 2px solid var(--error-color);
+
+  &::before {
+    padding: 12px 14px;
+    border: 2px solid var(--error-color);
+  }
+}
+
+.fileError .helper {
+  color: var(--error-color);
+}
+
+.helper {
+  position: absolute;
+  left: 3px;
+  bottom: -24px;
+  width: 100%;
+  padding: 0 13px;
+  font-size: 12px;
+  color: #7e7e7e;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}

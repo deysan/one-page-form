@@ -1,5 +1,6 @@
 export * from './Button';
 export * from './Container';
+export * from './FileInput';
 export * from './Footer';
 export * from './Form';
 export * from './Header';
